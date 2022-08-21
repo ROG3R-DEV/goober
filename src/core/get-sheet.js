@@ -2,6 +2,7 @@ let GOOBER_ID = '_goober';
 let ssr = {
     data: ''
 };
+const objectAssign = require('object-assign');
 
 /**
  * Returns the _commit_ target
@@ -14,7 +15,7 @@ export let getSheet = (target) => {
         // We're doing a querySelector because the <head> element doesn't implemented the getElementById api
         return (
             (target ? target.querySelector('#' + GOOBER_ID) : window[GOOBER_ID]) ||
-            Object.assign((target || document.head).appendChild(document.createElement('style')), {
+            objectAssign((target || document.head).appendChild(document.createElement('style')), {
                 innerHTML: ' ',
                 id: GOOBER_ID
             })

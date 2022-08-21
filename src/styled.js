@@ -1,6 +1,7 @@
 import { css } from './css';
 import { parse } from './core/parse';
 
+const objectAssign = require('object-assign');
 let h, useTheme, fwdProp;
 function setup(pragma, prefix, theme, forwardProps) {
     // This one needs to stay in here, so we won't have cyclic dependencies
@@ -17,6 +18,7 @@ function setup(pragma, prefix, theme, forwardProps) {
  * @param {string} tag
  * @param {function} forwardRef
  */
+
 function styled(tag, forwardRef) {
     let _ctx = this || {};
 
@@ -25,13 +27,13 @@ function styled(tag, forwardRef) {
 
         function Styled(props, ref) {
             // Grab a shallow copy of the props
-            let _props = Object.assign({}, props);
+            let _props = objectAssign({}, props);
 
             // Keep a local reference to the previous className
             let _previousClassName = _props.className || Styled.className;
 
             // _ctx.p: is the props sent to the context
-            _ctx.p = Object.assign({ theme: useTheme && useTheme() }, _props);
+            _ctx.p = objectAssign({ theme: useTheme && useTheme() }, _props);
 
             // Set a flag if the current components had a previous className
             // similar to goober. This is the append/prepend flag
